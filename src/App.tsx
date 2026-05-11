@@ -1207,6 +1207,15 @@ const SocialView = () => {
   const [commentInputs, setCommentInputs] = useState<Record<number, string>>({});
   const storyRef = useRef<HTMLDivElement>(null);
   const feedRef = useRef<HTMLDivElement>(null);
+
+  const toggleLike = (postId: number) => {
+    setLikedPosts(prev => prev.includes(postId) ? prev.filter(id => id !== postId) : [...prev, postId]);
+  };
+
+  const toggleComments = (postId: number) => {
+    setExpandedComments(prev => prev.includes(postId) ? prev.filter(id => id !== postId) : [...prev, postId]);
+  };
+
   const scrollStory = (dir: 'left' | 'right') => storyRef.current?.scrollBy({ left: dir === 'right' ? 140 : -140, behavior: 'smooth' });
   const scrollFeed = (dir: 'left' | 'right') => feedRef.current?.scrollBy({ left: dir === 'right' ? 180 : -180, behavior: 'smooth' });
 
