@@ -3239,7 +3239,87 @@ const HERO_SLIDES_QA = [
   },
 ];
 
+const HERO_SLIDES_LIDERANCA = [
+  {
+    id: 'lid-slide-1',
+    badge: 'Liderança • Alta Performance',
+    title: (
+      <>
+        Desenvolva líderes que<br />
+        inspiram e <span className="text-gradient-orange">geram resultados.</span>
+      </>
+    ),
+    description:
+      'Capacitação estratégica para gestores: da inteligência emocional à tomada de decisão. Transforme o potencial de seus talentos em performance real.',
+    card: (
+      <div className="relative rounded-3xl overflow-hidden aspect-[4/5] p-6 flex flex-col justify-between"
+        style={{ background: 'linear-gradient(135deg, #061830 0%, #082d24 55%, #10B981 160%)' }}>
+        <div className="flex items-center justify-between">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/10 border border-white/15 text-white text-[10px] font-semibold tracking-wide">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+            LIDERANÇA
+          </span>
+          <Users className="w-5 h-5 text-emerald-300/70" />
+        </div>
+        <div className="space-y-2">
+          {['Liderança Situacional', 'Feedback Assertivo', 'Gestão de Talentos', 'Cultura de Inovação'].map(item => (
+            <div key={item} className="flex items-center gap-2">
+              <div className="w-4 h-4 rounded-full bg-emerald-400/20 border border-emerald-400/40 flex items-center justify-center flex-shrink-0">
+                <Check className="w-2.5 h-2.5 text-emerald-300" />
+              </div>
+              <span className="text-sm text-white/80">{item}</span>
+            </div>
+          ))}
+        </div>
+        <div>
+          <p className="text-white/50 text-xs uppercase tracking-widest font-semibold">Gestão</p>
+          <h3 className="mt-1 text-2xl font-display font-bold text-white leading-tight">Elite Lector</h3>
+          <p className="mt-2 text-sm text-white/60">11 treinamentos · 4 trilhas</p>
+        </div>
+      </div>
+    ),
+  },
+  {
+    id: 'lid-slide-2',
+    badge: 'Soft Skills • Comunicação',
+    title: (
+      <>
+        Domine a arte de<br />
+        <span className="text-gradient-orange">liderar pessoas.</span>
+      </>
+    ),
+    description:
+      'Comunicação não-violenta, inteligência emocional e mediação de conflitos. As ferramentas essenciais para o líder moderno em um mercado dinâmico.',
+    card: (
+      <div className="relative rounded-3xl overflow-hidden aspect-[4/5] p-6 flex flex-col justify-between"
+        style={{ background: 'linear-gradient(135deg, #041433 0%, #063d30 60%, #FF7A1A 160%)' }}>
+        <div className="flex items-center justify-between">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/10 border border-white/15 text-white text-[10px] font-semibold tracking-wide">
+            <span className="w-1.5 h-1.5 rounded-full bg-orange-400" />
+            SOFT SKILLS
+          </span>
+          <Brain className="w-5 h-5 text-white/50" />
+        </div>
+        <div className="space-y-1.5">
+          {['Escuta Ativa', 'Empatia Estratégica', 'Resiliência', 'Influência Positiva'].map(item => (
+            <div key={item} className="flex items-center gap-2 bg-white/5 rounded-lg px-3 py-1.5 border border-white/10">
+              <div className="w-1.5 h-1.5 rounded-full bg-orange-400 flex-shrink-0" />
+              <span className="text-xs text-white/75 font-mono">{item}</span>
+            </div>
+          ))}
+        </div>
+        <div>
+          <p className="text-white/50 text-xs uppercase tracking-widest font-semibold">Foco em Pessoas</p>
+          <h3 className="mt-1 text-2xl font-display font-bold text-white leading-tight">Liderança Humana</h3>
+          <p className="mt-2 text-sm text-white/60">Novos cursos disponíveis</p>
+        </div>
+      </div>
+    ),
+  },
+];
+
 const Hero = ({ layoutVersion = 1, activeVitrineId = 'v1' }: { layoutVersion?: number; activeVitrineId?: string }) => {
+
   const [currentBanner, setCurrentBanner] = useState(0);
 
   useEffect(() => {
