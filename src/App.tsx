@@ -543,21 +543,21 @@ const VITRINE_SECTIONS: Record<string, string[]> = {
 // CATEGORY DATA
 // ============================================================
 const CATEGORY_DATA: Record<string, any> = {
-  all: { label: "Todas as categorias", subs: [], vitrines: ['v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7'] },
+  all: { label: "Tudo", icon: LayoutDashboard, subs: [], vitrines: ['v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7'] },
   corp: {
-    label: "Corporativo", subs: [
+    label: "Corporativo", icon: Briefcase, subs: [
       { id: "corp-onb", label: "Onboarding", vitriIds: ['v3'] },
-      { id: "corp-rh", label: "RH", vitriIds: ['v2'] },
+      { id: "corp-rh", label: "Recursos Humanos", vitriIds: ['v2'] },
     ], vitrines: ['v1', 'v2', 'v3']
   },
   prod: {
-    label: "Produtos", subs: [
+    label: "Produtos", icon: ShoppingBag, subs: [
       { id: "prod-ia", label: "IA & Automação", vitriIds: ['v4'] },
       { id: "prod-lid", label: "Liderança", vitriIds: ['v5'] },
     ], vitrines: ['v4', 'v5']
   },
-  cli: { label: "Clientes", subs: [], vitrines: ['v6'] },
-  qa: { label: "QA", subs: [], vitrines: ['v7'] },
+  cli: { label: "Clientes", icon: Users, subs: [], vitrines: ['v6'] },
+  qa: { label: "Qualidade", icon: Shield, subs: [], vitrines: ['v7'] },
 };
 
 // ============================================================
