@@ -440,6 +440,27 @@ const SECTIONS: Section[] = [
     ]
   },
 
+  { id: 'l1', title: 'Treinamentos de Liderança em Alta', variant: 'avancado-1', items: [
+      { id: 'l1-0', type: 'COURSE', thumb: course01, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Liderança Situacional e Adaptabilidade', description: 'Como ajustar seu estilo de liderança para diferentes maturidades de equipe.', duration: '4h 20min', price: '' },
+      { id: 'l1-1', type: 'COURSE', thumb: course02, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Comunicação Não-Violenta para Líderes', description: 'Técnicas de diálogo para resolver conflitos e dar feedbacks construtivos.', duration: '3h 15min', price: '' },
+      { id: 'l1-2', type: 'COURSE', thumb: course03, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Gestão de Mudanças Organizacionais', description: 'Como conduzir times em períodos de transição com foco em resultados.', duration: '5h 00min', price: '' },
+      { id: 'l1-3', type: 'COURSE', thumb: course04, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Inteligência Emocional e Tomada de Decisão', description: 'O papel das emoções no julgamento profissional e na liderança de pessoas.', duration: '2h 45min', price: '' },
+      { id: 'l1-4', type: 'COURSE', thumb: course05, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Mentoria e Desenvolvimento de Talentos', description: 'Como identificar potenciais e acelerar a carreira dos seus liderados.', duration: '6h 30min', price: '' },
+      { id: 'l1-5', type: 'COURSE', thumb: course06, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Liderança de Times Remotos e Híbridos', description: 'Estratégias para manter engajamento e cultura à distância.', duration: '3h 50min', price: '' },
+      { id: 'l1-6', type: 'COURSE', thumb: course07, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Gestão de Conflitos e Mediação', description: 'Ferramentas práticas para lidar com atritos entre membros da equipe.', duration: '4h 10min', price: '' },
+      { id: 'l1-7', type: 'COURSE', thumb: course08, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Delegação e Accountability', description: 'Como distribuir responsabilidades e garantir a entrega sem microgestão.', duration: '3h 20min', price: '' },
+      { id: 'l1-8', type: 'COURSE', thumb: course09, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Cultura de Inovação para Gestores', description: 'Como criar um ambiente seguro para o erro e para o surgimento de novas ideias.', duration: '4h 45min', price: '' },
+      { id: 'l1-9', type: 'COURSE', thumb: course10, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Liderança Inclusiva e Diversidade', description: 'Promovendo equidade e pertencimento nos processos de gestão.', duration: '3h 30min', price: '' },
+      { id: 'l1-10', type: 'COURSE', thumb: course11, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Estratégia e Visão de Negócio para Líderes', description: 'Conectando as metas do time aos objetivos globais da organização.', duration: '5h 15min', price: '' },
+    ]
+  },
+  { id: 'lt1', title: 'Trilhas de Liderança em Destaque', variant: 'avancado-1', items: [
+      { id: 'lt1-0', type: 'TRAIL', thumb: trail01, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Trilha Primeira Liderança', description: 'O guia definitivo para quem está assumindo seu primeiro cargo de gestão.', duration: '12h 00min', price: '' },
+      { id: 'lt1-1', type: 'TRAIL', thumb: trail02, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Trilha Liderança Estratégica', description: 'Desenvolva pensamento crítico e visão de longo prazo para alta gestão.', duration: '15h 30min', price: '' },
+      { id: 'lt1-2', type: 'TRAIL', thumb: trail03, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Trilha Feedback e Performance', description: 'Domine ciclos de avaliação e conversas difíceis para elevar o patamar do time.', duration: '10h 00min', price: '' },
+      { id: 'lt1-3', type: 'TRAIL', thumb: trail04, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Trilha Cultura e Engajamento', description: 'Aprenda a construir um ambiente de alto pertencimento e produtividade.', duration: '8h 45min', price: '' },
+    ]
+  },
   { id: 'a2', title: 'Avançado 2', variant: 'avancado-2', items: generateItems(11, 'a2') },
   { id: 'a3', title: 'Avançado 3', variant: 'avancado-3', items: generateItems(11, 'a3') },
   { id: 'a4', title: 'Avançado 4', variant: 'avancado-4', items: generateItems(11, 'a4') },
@@ -487,7 +508,7 @@ const VITRINE_SECTIONS: Record<string, string[]> = {
   v2: ['a1', 't1'],
   v3: ['a1', 't1'],
   v4: ['a1', 't1'],
-  v5: ['a1', 't1'],
+  v5: ['l1', 'lt1'],
   v6: ['a1', 't1'],
   v7: ['qa1', 'qt1'],
 };
@@ -3218,7 +3239,87 @@ const HERO_SLIDES_QA = [
   },
 ];
 
+const HERO_SLIDES_LIDERANCA = [
+  {
+    id: 'lid-slide-1',
+    badge: 'Liderança • Alta Performance',
+    title: (
+      <>
+        Desenvolva líderes que<br />
+        inspiram e <span className="text-gradient-orange">geram resultados.</span>
+      </>
+    ),
+    description:
+      'Capacitação estratégica para gestores: da inteligência emocional à tomada de decisão. Transforme o potencial de seus talentos em performance real.',
+    card: (
+      <div className="relative rounded-3xl overflow-hidden aspect-[4/5] p-6 flex flex-col justify-between"
+        style={{ background: 'linear-gradient(135deg, #061830 0%, #082d24 55%, #10B981 160%)' }}>
+        <div className="flex items-center justify-between">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/10 border border-white/15 text-white text-[10px] font-semibold tracking-wide">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+            LIDERANÇA
+          </span>
+          <Users className="w-5 h-5 text-emerald-300/70" />
+        </div>
+        <div className="space-y-2">
+          {['Liderança Situacional', 'Feedback Assertivo', 'Gestão de Talentos', 'Cultura de Inovação'].map(item => (
+            <div key={item} className="flex items-center gap-2">
+              <div className="w-4 h-4 rounded-full bg-emerald-400/20 border border-emerald-400/40 flex items-center justify-center flex-shrink-0">
+                <Check className="w-2.5 h-2.5 text-emerald-300" />
+              </div>
+              <span className="text-sm text-white/80">{item}</span>
+            </div>
+          ))}
+        </div>
+        <div>
+          <p className="text-white/50 text-xs uppercase tracking-widest font-semibold">Gestão</p>
+          <h3 className="mt-1 text-2xl font-display font-bold text-white leading-tight">Elite Lector</h3>
+          <p className="mt-2 text-sm text-white/60">11 treinamentos · 4 trilhas</p>
+        </div>
+      </div>
+    ),
+  },
+  {
+    id: 'lid-slide-2',
+    badge: 'Soft Skills • Comunicação',
+    title: (
+      <>
+        Domine a arte de<br />
+        <span className="text-gradient-orange">liderar pessoas.</span>
+      </>
+    ),
+    description:
+      'Comunicação não-violenta, inteligência emocional e mediação de conflitos. As ferramentas essenciais para o líder moderno em um mercado dinâmico.',
+    card: (
+      <div className="relative rounded-3xl overflow-hidden aspect-[4/5] p-6 flex flex-col justify-between"
+        style={{ background: 'linear-gradient(135deg, #041433 0%, #063d30 60%, #FF7A1A 160%)' }}>
+        <div className="flex items-center justify-between">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/10 border border-white/15 text-white text-[10px] font-semibold tracking-wide">
+            <span className="w-1.5 h-1.5 rounded-full bg-orange-400" />
+            SOFT SKILLS
+          </span>
+          <Brain className="w-5 h-5 text-white/50" />
+        </div>
+        <div className="space-y-1.5">
+          {['Escuta Ativa', 'Empatia Estratégica', 'Resiliência', 'Influência Positiva'].map(item => (
+            <div key={item} className="flex items-center gap-2 bg-white/5 rounded-lg px-3 py-1.5 border border-white/10">
+              <div className="w-1.5 h-1.5 rounded-full bg-orange-400 flex-shrink-0" />
+              <span className="text-xs text-white/75 font-mono">{item}</span>
+            </div>
+          ))}
+        </div>
+        <div>
+          <p className="text-white/50 text-xs uppercase tracking-widest font-semibold">Foco em Pessoas</p>
+          <h3 className="mt-1 text-2xl font-display font-bold text-white leading-tight">Liderança Humana</h3>
+          <p className="mt-2 text-sm text-white/60">Novos cursos disponíveis</p>
+        </div>
+      </div>
+    ),
+  },
+];
+
 const Hero = ({ layoutVersion = 1, activeVitrineId = 'v1' }: { layoutVersion?: number; activeVitrineId?: string }) => {
+
   const [currentBanner, setCurrentBanner] = useState(0);
 
   useEffect(() => {
@@ -3226,7 +3327,10 @@ const Hero = ({ layoutVersion = 1, activeVitrineId = 'v1' }: { layoutVersion?: n
   }, [activeVitrineId]);
 
   useEffect(() => {
-    const slides = activeVitrineId === 'v7' ? HERO_SLIDES_QA : HERO_SLIDES_DEFAULT;
+    const slides = 
+      activeVitrineId === 'v7' ? HERO_SLIDES_QA : 
+      activeVitrineId === 'v5' ? HERO_SLIDES_LIDERANCA : 
+      HERO_SLIDES_DEFAULT;
     const timer = setInterval(() => {
       setCurrentBanner((prev) => (prev + 1) % slides.length);
     }, 5000);
@@ -3306,7 +3410,7 @@ const Hero = ({ layoutVersion = 1, activeVitrineId = 'v1' }: { layoutVersion?: n
     );
   }
 
-  const slides = activeVitrineId === 'v7' ? HERO_SLIDES_QA : HERO_SLIDES_DEFAULT;
+  const slides = activeVitrineId === 'v7' ? HERO_SLIDES_QA : activeVitrineId === 'v5' ? HERO_SLIDES_LIDERANCA : HERO_SLIDES_DEFAULT;
   const slide = slides[currentBanner % slides.length];
 
   const vitrine = VITRINES.find(v => v.id === activeVitrineId);
