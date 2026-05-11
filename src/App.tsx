@@ -543,21 +543,21 @@ const VITRINE_SECTIONS: Record<string, string[]> = {
 // CATEGORY DATA
 // ============================================================
 const CATEGORY_DATA: Record<string, any> = {
-  all: { label: "Todas as categorias", subs: [], vitrines: ['v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7'] },
+  all: { label: "Tudo", icon: LayoutDashboard, subs: [], vitrines: ['v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7'] },
   corp: {
-    label: "Corporativo", subs: [
+    label: "Corporativo", icon: Briefcase, subs: [
       { id: "corp-onb", label: "Onboarding", vitriIds: ['v3'] },
-      { id: "corp-rh", label: "RH", vitriIds: ['v2'] },
+      { id: "corp-rh", label: "Recursos Humanos", vitriIds: ['v2'] },
     ], vitrines: ['v1', 'v2', 'v3']
   },
   prod: {
-    label: "Produtos", subs: [
+    label: "Produtos", icon: ShoppingBag, subs: [
       { id: "prod-ia", label: "IA & Automação", vitriIds: ['v4'] },
       { id: "prod-lid", label: "Liderança", vitriIds: ['v5'] },
     ], vitrines: ['v4', 'v5']
   },
-  cli: { label: "Clientes", subs: [], vitrines: ['v6'] },
-  qa: { label: "QA", subs: [], vitrines: ['v7'] },
+  cli: { label: "Clientes", icon: Users, subs: [], vitrines: ['v6'] },
+  qa: { label: "Qualidade", icon: Shield, subs: [], vitrines: ['v7'] },
 };
 
 // ============================================================
@@ -612,103 +612,112 @@ const VitrineBar = ({
   const availableVitrines = VITRINES.filter((v) => availableVitrineIds.includes(v.id));
 
   return (
-    <div className="bg-white/80 backdrop-blur-xl border-b border-gray-100 sticky top-14 z-40">
+    <div className="bg-white border-b border-gray-100 sticky top-14 z-40">
       <div className="max-w-[1600px] 2xl:max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-16">
         
-        {/* NÍVEL 1: NAVEGAÇÃO PRINCIPAL (ESTILO APP STORE) */}
-        <div className="flex items-center justify-between border-b border-gray-50 h-16">
-          <nav className="flex items-center h-full gap-8 overflow-x-auto scrollbar-hide">
-            {categories.map(([categoryId, category]) => {
-              const isActive = categoryId === activeCategory;
-              return (
-                <button
-                  key={categoryId}
-                  onClick={() => {
-                    setActiveCategory(categoryId);
-                    setActiveSub(null);
-                    const vIds = getVitrineIdsByFilter(categoryId, null);
-                    if (vIds.length > 0) setActiveVitrineId(vIds[0]);
-                  }}
-                  className={`relative h-full flex items-center text-[15px] font-bold transition-all whitespace-nowrap px-1 ${
-                    isActive ? 'text-brand-primary' : 'text-slate-400 hover:text-slate-600'
-                  }`}
-                >
+        {/* NÍVEL 1: CATEGORIAS ESTILO AIRBNB */}
+        <div className="flex items-center gap-10 overflow-x-auto scrollbar-hide py-4">
+          {categories.map(([categoryId, category]) => {
+            const isActive = categoryId === activeCategory;
+            const Icon = (category as any).icon;
+            return (
+              <button
+                key={categoryId}
+                onClick={() => {
+                  setActiveCategory(categoryId);
+                  setActiveSub(null);
+                  const vIds = getVitrineIdsByFilter(categoryId, null);
+                  if (vIds.length > 0) setActiveVitrineId(vIds[0]);
+                }}
+                className={`flex flex-col items-center gap-2 min-w-fit transition-all group pb-2 relative`}
+              >
+                <div className={`p-2 rounded-lg transition-all ${isActive ? 'text-brand-primary' : 'text-slate-400 group-hover:text-slate-600'}`}>
+                  <Icon className="w-6 h-6" />
+                </div>
+                <span className={`text-[12px] font-bold transition-all ${isActive ? 'text-slate-900' : 'text-slate-500 group-hover:text-slate-700'}`}>
                   {(category as any).label}
-                  {isActive && (
-                    <motion.div 
-                      layoutId="activeTabUnderline" 
-                      className="absolute bottom-0 left-0 right-0 h-1 bg-brand-primary rounded-t-full" 
-                    />
-                  )}
-                </button>
-              );
-            })}
-          </nav>
+                </span>
+                {isActive && (
+                  <motion.div 
+                    layoutId="airbnbActiveTab" 
+                    className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-slate-900 rounded-full" 
+                  />
+                )}
+              </button>
+            );
+          })}
         </div>
 
-        {/* NÍVEL 2 E 3: EXPLORAÇÃO E FILTROS (REVELAÇÃO PROGRESSIVA) */}
-        <div className="py-5 flex flex-col gap-5">
-          
-          <AnimatePresence mode="wait">
-            {activeCategory !== 'all' && categoryData.subs?.length > 0 && (
-              <motion.div 
-                initial={{ opacity: 0, y: -5 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -5 }}
-                className="flex items-center gap-2 overflow-x-auto scrollbar-hide pb-1"
-              >
-                <button
-                  onClick={() => setActiveSub(null)}
-                  className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all border whitespace-nowrap ${
-                    !activeSub
-                      ? 'bg-slate-900 border-slate-900 text-white'
-                      : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300'
-                  }`}
+        {/* NÍVEL 2: FILTROS E EXPLORAÇÃO */}
+        {( (activeCategory !== 'all' && categoryData.subs?.length > 0) || availableVitrines.length > 1 ) && (
+          <div className="py-4 border-t border-gray-50 flex flex-col gap-4">
+            
+            {/* SUBCATEGORIAS */}
+            <AnimatePresence mode="wait">
+              {activeCategory !== 'all' && categoryData.subs?.length > 0 && (
+                <motion.div 
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -10 }}
+                  className="flex items-center gap-2 overflow-x-auto scrollbar-hide"
                 >
-                  Tudo
-                </button>
-                {categoryData.subs.map((sub: any) => (
                   <button
-                    key={sub.id}
-                    onClick={() => setActiveSub(sub.id)}
-                    className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all border whitespace-nowrap ${
-                      activeSub === sub.id
+                    onClick={() => setActiveSub(null)}
+                    className={`h-8 px-4 rounded-lg text-xs font-bold transition-all border whitespace-nowrap ${
+                      !activeSub
                         ? 'bg-slate-900 border-slate-900 text-white'
                         : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300'
                     }`}
                   >
-                    {sub.label}
+                    Todos
                   </button>
-                ))}
-              </motion.div>
-            )}
-          </AnimatePresence>
+                  {categoryData.subs.map((sub: any) => (
+                    <button
+                      key={sub.id}
+                      onClick={() => setActiveSub(sub.id)}
+                      className={`h-8 px-4 rounded-lg text-xs font-bold transition-all border whitespace-nowrap ${
+                        activeSub === sub.id
+                          ? 'bg-slate-900 border-slate-900 text-white'
+                          : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300'
+                      }`}
+                    >
+                      {sub.label}
+                    </button>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
 
-          <div className="flex flex-wrap gap-2">
-            {availableVitrines.map((vitrine) => {
-              const isActive = vitrine.id === activeVitrineId;
-              return (
-                <button
-                  key={vitrine.id}
-                  onClick={() => setActiveVitrineId(vitrine.id)}
-                  className={`group flex items-center gap-2.5 px-4 py-2 rounded-xl border transition-all duration-200 ${
-                    isActive
-                      ? 'bg-slate-50 border-brand-primary ring-2 ring-brand-primary/5'
-                      : 'bg-white border-slate-100 hover:border-slate-200 hover:shadow-sm'
-                  }`}
-                >
-                  <div 
-                    className="w-1.5 h-1.5 rounded-full" 
-                    style={{ backgroundColor: vitrine.cor }} 
-                  />
-                  <span className={`text-[13px] font-bold ${isActive ? 'text-brand-primary' : 'text-slate-600'}`}>
-                    {vitrine.nome}
-                  </span>
-                </button>
-              );
-            })}
+            {/* VITRINES EM CARDS LADO A LADO */}
+            <div className="flex gap-3 overflow-x-auto scrollbar-hide">
+              {availableVitrines.map((vitrine) => {
+                const isActive = vitrine.id === activeVitrineId;
+                return (
+                  <button
+                    key={vitrine.id}
+                    onClick={() => setActiveVitrineId(vitrine.id)}
+                    className={`flex items-center gap-3 h-12 px-5 rounded-xl border transition-all min-w-[200px] ${
+                      isActive
+                        ? 'bg-slate-50 border-brand-primary ring-1 ring-brand-primary/10'
+                        : 'bg-white border-slate-100 hover:border-slate-200 shadow-sm shadow-black/[0.02]'
+                    }`}
+                  >
+                    <div 
+                      className="w-2.5 h-2.5 rounded-full ring-4 ring-white shadow-sm" 
+                      style={{ backgroundColor: vitrine.cor }} 
+                    />
+                    <div className="text-left flex-1 min-w-0">
+                      <p className={`text-[13px] font-bold truncate ${isActive ? 'text-brand-primary' : 'text-slate-700'}`}>
+                        {vitrine.nome}
+                      </p>
+                    </div>
+                    {isActive && <Check className="w-4 h-4 text-brand-primary flex-shrink-0" />}
+                  </button>
+                );
+              })}
+            </div>
           </div>
-        </div>
+        )}
 
       </div>
     </div>
