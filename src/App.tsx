@@ -3410,7 +3410,7 @@ const Hero = ({ layoutVersion = 1, activeVitrineId = 'v1' }: { layoutVersion?: n
     );
   }
 
-  const slides = activeVitrineId === 'v7' ? HERO_SLIDES_QA : HERO_SLIDES_DEFAULT;
+  const slides = activeVitrineId === 'v7' ? HERO_SLIDES_QA : activeVitrineId === 'v5' ? HERO_SLIDES_LIDERANCA : HERO_SLIDES_DEFAULT;
   const slide = slides[currentBanner % slides.length];
 
   const vitrine = VITRINES.find(v => v.id === activeVitrineId);
