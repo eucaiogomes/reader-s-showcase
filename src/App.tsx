@@ -508,7 +508,7 @@ const VITRINE_SECTIONS: Record<string, string[]> = {
   v2: ['a1', 't1'],
   v3: ['a1', 't1'],
   v4: ['a1', 't1'],
-  v5: ['a1', 't1'],
+  v5: ['l1', 'lt1'],
   v6: ['a1', 't1'],
   v7: ['qa1', 'qt1'],
 };
