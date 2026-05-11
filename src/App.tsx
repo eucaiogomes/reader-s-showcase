@@ -3327,7 +3327,10 @@ const Hero = ({ layoutVersion = 1, activeVitrineId = 'v1' }: { layoutVersion?: n
   }, [activeVitrineId]);
 
   useEffect(() => {
-    const slides = activeVitrineId === 'v7' ? HERO_SLIDES_QA : HERO_SLIDES_DEFAULT;
+    const slides = 
+      activeVitrineId === 'v7' ? HERO_SLIDES_QA : 
+      activeVitrineId === 'v5' ? HERO_SLIDES_LIDERANCA : 
+      HERO_SLIDES_DEFAULT;
     const timer = setInterval(() => {
       setCurrentBanner((prev) => (prev + 1) % slides.length);
     }, 5000);
