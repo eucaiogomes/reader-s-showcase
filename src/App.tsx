@@ -3316,7 +3316,7 @@ const Hero = ({ layoutVersion = 1, activeVitrineId = 'v1' }: { layoutVersion?: n
     <div
       className="relative overflow-hidden flex flex-col"
       style={{ 
-        background: `linear-gradient(135deg, #08142c 0%, #0c2044 40%, ${heroColor}CC 100%)`, 
+        background: `radial-gradient(ellipse 80% 60% at 30% 20%, ${heroColor}2E, transparent 60%), radial-gradient(ellipse 70% 60% at 80% 90%, ${heroColor}1F, transparent 60%), linear-gradient(135deg, #041433 0%, #08204D 60%, ${heroColor}88 100%)`, 
         height: '400px' 
       }}
     >
