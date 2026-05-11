@@ -542,7 +542,7 @@ const VITRINE_SECTIONS: Record<string, string[]> = {
 // ============================================================
 // CATEGORY DATA
 // ============================================================
-const CATEGORY_DATA = {
+const CATEGORY_DATA: Record<string, any> = {
   all: { label: "Todas as categorias", subs: [], vitrines: ['v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7'] },
   corp: {
     label: "Corporativo", subs: [
@@ -595,6 +595,8 @@ const VitrineBar = ({
 }) => {
   const [activeCategory, setActiveCategory] = useState('all');
   const [activeSub, setActiveSub] = useState<string | null>(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const { category, sub } = getCategoryForVitrine(activeVitrineId);
@@ -602,109 +604,128 @@ const VitrineBar = ({
     setActiveSub(sub);
   }, [activeVitrineId]);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   const categories = Object.entries(CATEGORY_DATA);
-  const categoryData = (CATEGORY_DATA[activeCategory] ?? CATEGORY_DATA.all) as any;
+  const categoryData = (CATEGORY_DATA[activeCategory as keyof typeof CATEGORY_DATA] ?? CATEGORY_DATA.all) as any;
   const availableVitrineIds = getVitrineIdsByFilter(activeCategory, activeSub);
   const availableVitrines = VITRINES.filter((v) => availableVitrineIds.includes(v.id));
-  const showSubsection = activeCategory !== 'all' && !!categoryData.subs?.length;
-  const showVitrineSection = activeCategory === 'all' || activeSub !== null || categoryData.subs?.length === 0;
-
-  const selectCategory = (categoryId: string) => {
-    setActiveCategory(categoryId);
-    setActiveSub(null);
-  };
-
-  const selectSub = (subId: string | null) => {
-    setActiveSub(subId);
-  };
+  const activeVitrine = VITRINES.find(v => v.id === activeVitrineId);
 
   return (
     <div className="bg-white border-b border-gray-100 sticky top-14 z-40">
-      <div className="max-w-[1600px] 2xl:max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-16 py-3">
-        <div className="max-w-[1680px] mx-auto bg-white border border-gray-200 rounded-3xl shadow-[0_20px_60px_rgba(15,23,42,0.09)] px-4 py-3">
-          <div className="flex flex-wrap gap-2 items-center">
+      <div className="max-w-[1600px] 2xl:max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-16 py-4">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+          
+          {/* Navegação de Categorias Principal */}
+          <nav className="flex items-center gap-1 bg-gray-100/50 p-1 rounded-2xl w-fit">
             {categories.map(([categoryId, category]) => {
-              if (categoryId === 'all') return null;
               const isActive = categoryId === activeCategory;
               return (
                 <button
                   key={categoryId}
-                  onClick={() => selectCategory(categoryId)}
-                  className={`rounded-2xl border px-4 py-2 min-h-[38px] min-w-[130px] text-sm font-semibold transition-all duration-150 whitespace-nowrap ${
+                  onClick={() => {
+                    setActiveCategory(categoryId);
+                    setActiveSub(null);
+                    // Se a categoria tiver vitrines, seleciona a primeira
+                    const vIds = getVitrineIdsByFilter(categoryId, null);
+                    if (vIds.length > 0) setActiveVitrineId(vIds[0]);
+                  }}
+                  className={`px-5 py-2 rounded-xl text-sm font-bold transition-all duration-200 whitespace-nowrap ${
                     isActive
-                      ? 'border-orange-500 bg-orange-50 text-orange-700'
-                      : 'border-gray-200 bg-white text-slate-700 hover:border-gray-300 hover:bg-slate-50'
+                      ? 'bg-white text-brand-primary shadow-sm'
+                      : 'text-slate-500 hover:text-slate-800'
                   }`}
                 >
                   {(category as any).label}
                 </button>
               );
             })}
+          </nav>
+
+          {/* Seletor de Vitrine Estilo Dropdown Premium */}
+          <div className="relative" ref={dropdownRef}>
+            <button
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className="flex items-center gap-3 bg-white border border-gray-200 hover:border-brand-primary/30 px-5 py-2.5 rounded-2xl shadow-sm transition-all group min-w-[240px] justify-between"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: activeVitrine?.cor || '#FF7A1A' }} />
+                <div className="text-left">
+                  <p className="text-[10px] uppercase tracking-wider font-bold text-slate-400 leading-none mb-1">Vitrine Ativa</p>
+                  <p className="text-sm font-bold text-slate-900 leading-none">{activeVitrine?.nome}</p>
+                </div>
+              </div>
+              <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+            </button>
+
+            <AnimatePresence>
+              {isDropdownOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                  className="absolute right-0 mt-2 w-72 bg-white border border-gray-100 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] overflow-hidden p-2 origin-top-right"
+                >
+                  <div className="max-h-[400px] overflow-y-auto custom-scrollbar">
+                    {/* Subcategorias se existirem */}
+                    {categoryData.subs?.length > 0 && (
+                      <div className="p-2 mb-2 bg-slate-50 rounded-2xl flex flex-wrap gap-1">
+                        <button
+                          onClick={() => setActiveSub(null)}
+                          className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${!activeSub ? 'bg-white text-brand-primary shadow-sm' : 'text-slate-500 hover:bg-white/50'}`}
+                        >
+                          Tudo
+                        </button>
+                        {categoryData.subs.map((sub: any) => (
+                          <button
+                            key={sub.id}
+                            onClick={() => setActiveSub(sub.id)}
+                            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${activeSub === sub.id ? 'bg-white text-brand-primary shadow-sm' : 'text-slate-500 hover:bg-white/50'}`}
+                          >
+                            {sub.label}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+
+                    <div className="space-y-1">
+                      {availableVitrines.map((vitrine) => {
+                        const isActive = vitrine.id === activeVitrineId;
+                        return (
+                          <button
+                            key={vitrine.id}
+                            onClick={() => {
+                              setActiveVitrineId(vitrine.id);
+                              setIsDropdownOpen(false);
+                            }}
+                            className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition-all ${
+                              isActive ? 'bg-brand-primary/5 text-brand-primary' : 'hover:bg-slate-50 text-slate-600'
+                            }`}
+                          >
+                            <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: vitrine.cor }} />
+                            <div className="text-left">
+                              <p className="text-sm font-bold leading-tight">{vitrine.nome}</p>
+                              <p className="text-[11px] opacity-60 leading-tight mt-0.5 line-clamp-1">{vitrine.descricao}</p>
+                            </div>
+                            {isActive && <Check className="w-4 h-4 ml-auto" />}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
-
-          <AnimatePresence initial={false}>
-            {showSubsection ? (
-              <motion.div
-                key="subsection"
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.25, ease: 'easeOut' }}
-                className="overflow-hidden"
-              >
-                <div className="flex flex-wrap gap-2 items-center mt-3">
-                  {categoryData.subs.map((sub: any) => {
-                    const isActive = activeSub === sub.id;
-                    return (
-                      <button
-                        key={sub.id}
-                        onClick={() => selectSub(sub.id)}
-                        className={`rounded-2xl border px-4 py-2 min-h-[38px] min-w-[130px] text-sm font-medium transition-all duration-150 whitespace-nowrap ${
-                          isActive
-                            ? 'border-orange-500 bg-orange-50 text-orange-700'
-                            : 'border-gray-200 bg-slate-50 text-slate-600 hover:border-gray-300 hover:bg-slate-100'
-                        }`}
-                      >
-                        {sub.label}
-                      </button>
-                    );
-                  })}
-                </div>
-              </motion.div>
-            ) : null}
-          </AnimatePresence>
-
-          <AnimatePresence initial={false}>
-            {showVitrineSection ? (
-              <motion.div
-                key="vitrineSection"
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.25, ease: 'easeOut' }}
-                className="overflow-hidden"
-              >
-                <div className="flex flex-wrap gap-2 items-center mt-3">
-                  {availableVitrines.map((vitrine) => {
-                    const isActive = vitrine.id === activeVitrineId;
-                    return (
-                      <button
-                        key={vitrine.id}
-                        onClick={() => setActiveVitrineId(vitrine.id)}
-                        className={`rounded-2xl border px-4 py-2 min-h-[38px] min-w-[130px] text-sm font-semibold transition-all duration-150 whitespace-nowrap ${
-                          isActive
-                            ? 'border-orange-500 bg-orange-50 text-orange-700'
-                            : 'border-gray-200 bg-slate-50 text-slate-700 hover:border-gray-300 hover:bg-slate-100'
-                        }`}
-                      >
-                        {vitrine.nome}
-                      </button>
-                    );
-                  })}
-                </div>
-              </motion.div>
-            ) : null}
-          </AnimatePresence>
         </div>
       </div>
     </div>
@@ -1186,6 +1207,15 @@ const SocialView = () => {
   const [commentInputs, setCommentInputs] = useState<Record<number, string>>({});
   const storyRef = useRef<HTMLDivElement>(null);
   const feedRef = useRef<HTMLDivElement>(null);
+
+  const toggleLike = (postId: number) => {
+    setLikedPosts(prev => prev.includes(postId) ? prev.filter(id => id !== postId) : [...prev, postId]);
+  };
+
+  const toggleComments = (postId: number) => {
+    setExpandedComments(prev => prev.includes(postId) ? prev.filter(id => id !== postId) : [...prev, postId]);
+  };
+
   const scrollStory = (dir: 'left' | 'right') => storyRef.current?.scrollBy({ left: dir === 'right' ? 140 : -140, behavior: 'smooth' });
   const scrollFeed = (dir: 'left' | 'right') => feedRef.current?.scrollBy({ left: dir === 'right' ? 180 : -180, behavior: 'smooth' });
 
