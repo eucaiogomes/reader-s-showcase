@@ -119,17 +119,28 @@ const BANNERS = [
 ];
 
 const generateItems = (count: number, prefix: string): ContentItem[] => {
+  const getThemeData = (prefix: string) => {
+    if (prefix.startsWith('v2') || prefix.includes('rh')) return { theme: 'Recursos Humanos', color: '2563EB', titles: ['Gestão de Talentos', 'Cultura Organizacional', 'Feedback Eficaz', 'Recrutamento Seleção', 'Bem-estar no Trabalho'] };
+    if (prefix.startsWith('v4') || prefix.includes('ia')) return { theme: 'IA & Automação', color: '8B5CF6', titles: ['Prompt Engineering', 'Automação com No-Code', 'IA no Cotidiano', 'Machine Learning Basics', 'Futuro do Trabalho'] };
+    if (prefix.startsWith('v3') || prefix.includes('onb')) return { theme: 'Onboarding', color: 'EC4899', titles: ['Bem-vindo à Lector', 'Nossa Cultura', 'Ferramentas Iniciais', 'Primeiros Passos', 'Segurança da Informação'] };
+    if (prefix.startsWith('v5') || prefix.includes('lid')) return { theme: 'Liderança', color: '10B981', titles: ['Liderança Situacional', 'Gestão de Conflitos', 'Mentoria e Coaching', 'Tomada de Decisão', 'Liderando Times Remotos'] };
+    if (prefix.startsWith('v7') || prefix.includes('qa')) return { theme: 'Qualidade (QA)', color: '0EA5E9', titles: ['Testes de Regressão', 'Automação de UI', 'Cypress Avançado', 'Quality Assurance 101', 'Testes de Performance'] };
+    return { theme: 'Corporativo', color: 'FF7A1A', titles: ['Produtividade Máxima', 'Comunicação Assertiva', 'Gestão do Tempo', 'Trabalho em Equipe', 'Excelência no Atendimento'] };
+  };
+
+  const themeInfo = getThemeData(prefix);
+
   return Array.from({ length: count }).map((_, i) => ({
     id: `${prefix}-${i}`,
-    title: `Lorem ipsum dolor sit amet consectetur adipiscing elit ${i + 1}`,
-    description: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reiciendis cumque inventore doloremque sit labore incidunt...',
+    title: themeInfo.titles[i % themeInfo.titles.length] + (i >= themeInfo.titles.length ? ` - Módulo ${Math.floor(i/themeInfo.titles.length) + 1}` : ''),
+    description: `Aprenda técnicas avançadas de ${themeInfo.theme.toLowerCase()} para impulsionar seus resultados profissionais e da sua equipe.`,
     type: 'COURSE',
-    thumb: `https://picsum.photos/seed/${prefix}-${i}/400/225`,
-    authors: 'John Doe',
-    duration: '32h00m',
-    price: 'R$ 20,00',
-    progress: 70,
-    grade: 50,
+    thumb: `https://picsum.photos/seed/${themeInfo.color}-${i}/400/225`,
+    authors: 'Especialistas Lector',
+    duration: `${Math.floor(Math.random() * 5) + 2}h ${Math.floor(Math.random() * 60)}m`,
+    price: 'R$ 49,90',
+    progress: Math.floor(Math.random() * 100),
+    grade: Math.floor(Math.random() * 50) + 50,
   }));
 };
 
@@ -3298,10 +3309,16 @@ const Hero = ({ layoutVersion = 1, activeVitrineId = 'v1' }: { layoutVersion?: n
   const slides = activeVitrineId === 'v7' ? HERO_SLIDES_QA : HERO_SLIDES_DEFAULT;
   const slide = slides[currentBanner % slides.length];
 
+  const vitrine = VITRINES.find(v => v.id === activeVitrineId);
+  const heroColor = vitrine?.cor || '#08142c';
+
   return (
     <div
       className="relative overflow-hidden flex flex-col"
-      style={{ background: 'var(--gradient-hero)', height: '400px' }}
+      style={{ 
+        background: `radial-gradient(ellipse 80% 60% at 30% 20%, ${heroColor}2E, transparent 60%), radial-gradient(ellipse 70% 60% at 80% 90%, ${heroColor}1F, transparent 60%), linear-gradient(135deg, #041433 0%, #08204D 60%, ${heroColor}88 100%)`, 
+        height: '400px' 
+      }}
     >
       {/* Orbital decorative pattern */}
       <div className="absolute inset-0 orbit-pattern opacity-60 pointer-events-none" />
