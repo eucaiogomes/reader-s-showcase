@@ -542,7 +542,7 @@ const VITRINE_SECTIONS: Record<string, string[]> = {
 // ============================================================
 // CATEGORY DATA
 // ============================================================
-const CATEGORY_DATA = {
+const CATEGORY_DATA: Record<string, any> = {
   all: { label: "Todas as categorias", subs: [], vitrines: ['v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7'] },
   corp: {
     label: "Corporativo", subs: [
