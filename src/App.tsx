@@ -470,8 +470,8 @@ const SECTIONS: Section[] = [
     ]
   },
   { id: 'ot1', title: 'Trilhas de Onboarding em Destaque', variant: 'avancado-1', items: [
-      { id: 'ot1-0', type: 'TRAIL', thumb: `https://picsum.photos/seed/trilha-onb-0/400/225`, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Trilha Novo Colaborador', description: 'O percurso essencial para quem acaba de chegar no time.', duration: '8h 00min', price: '' },
-      { id: 'ot1-1', type: 'TRAIL', thumb: `https://picsum.photos/seed/trilha-onb-1/400/225`, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Trilha Sucesso do Cliente', description: 'Domine as etapas de implementação e acompanhamento de novos clientes.', duration: '10h 30min', price: '' },
+      { id: 'ot1-0', type: 'TRAIL', thumb: `https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=400&h=225&auto=format&fit=crop`, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Trilha Novo Colaborador', description: 'O percurso essencial para quem acaba de chegar no time.', duration: '8h 00min', price: '' },
+      { id: 'ot1-1', type: 'TRAIL', thumb: `https://images.unsplash.com/photo-1553877522-43269d4ea984?q=80&w=400&h=225&auto=format&fit=crop`, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Trilha Sucesso do Cliente', description: 'Domine as etapas de implementação e acompanhamento de novos clientes.', duration: '10h 30min', price: '' },
     ]
   },
   { id: 'a2', title: 'Avançado 2', variant: 'avancado-2', items: generateItems(11, 'a2') },
