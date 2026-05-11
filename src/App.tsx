@@ -461,6 +461,19 @@ const SECTIONS: Section[] = [
       { id: 'lt1-3', type: 'TRAIL', thumb: `https://picsum.photos/seed/trilha-lider-3/400/225`, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Trilha Cultura e Engajamento', description: 'Aprenda a construir um ambiente de alto pertencimento e produtividade.', duration: '8h 45min', price: '' },
     ]
   },
+  { id: 'o1', title: 'Treinamentos de Onboarding em Alta', variant: 'avancado-1', items: [
+      { id: 'o1-0', type: 'COURSE', thumb: `https://picsum.photos/seed/onb-0/400/225`, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Como conduzir um onboarding com um cliente', description: 'Passo a passo para garantir que o cliente entenda o valor do produto desde o primeiro dia.', duration: '2h 30min', price: '' },
+      { id: 'o1-1', type: 'COURSE', thumb: `https://picsum.photos/seed/onb-1/400/225`, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Boas-vindas à nossa cultura', description: 'Conheça nossos valores, missão e o que nos move como empresa.', duration: '1h 15min', price: '' },
+      { id: 'o1-2', type: 'COURSE', thumb: `https://picsum.photos/seed/onb-2/400/225`, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Primeiros passos nas ferramentas', description: 'Um guia prático sobre as plataformas que usamos no dia a dia.', duration: '1h 45min', price: '' },
+      { id: 'o1-3', type: 'COURSE', thumb: `https://picsum.photos/seed/onb-3/400/225`, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Manual de conduta e ética', description: 'Nossas diretrizes para um ambiente de trabalho saudável e profissional.', duration: '1h 00min', price: '' },
+      { id: 'o1-4', type: 'COURSE', thumb: `https://picsum.photos/seed/onb-4/400/225`, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Como encantar o cliente na primeira reunião', description: 'Técnicas de comunicação e apresentação para o kick-off de projetos.', duration: '2h 00min', price: '' },
+    ]
+  },
+  { id: 'ot1', title: 'Trilhas de Onboarding em Destaque', variant: 'avancado-1', items: [
+      { id: 'ot1-0', type: 'TRAIL', thumb: `https://picsum.photos/seed/trilha-onb-0/400/225`, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Trilha Novo Colaborador', description: 'O percurso essencial para quem acaba de chegar no time.', duration: '8h 00min', price: '' },
+      { id: 'ot1-1', type: 'TRAIL', thumb: `https://picsum.photos/seed/trilha-onb-1/400/225`, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Trilha Sucesso do Cliente', description: 'Domine as etapas de implementação e acompanhamento de novos clientes.', duration: '10h 30min', price: '' },
+    ]
+  },
   { id: 'a2', title: 'Avançado 2', variant: 'avancado-2', items: generateItems(11, 'a2') },
   { id: 'a3', title: 'Avançado 3', variant: 'avancado-3', items: generateItems(11, 'a3') },
   { id: 'a4', title: 'Avançado 4', variant: 'avancado-4', items: generateItems(11, 'a4') },
