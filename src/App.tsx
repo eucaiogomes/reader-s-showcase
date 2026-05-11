@@ -474,6 +474,19 @@ const SECTIONS: Section[] = [
       { id: 'ot1-1', type: 'TRAIL', thumb: `https://images.unsplash.com/photo-1553877522-43269d4ea984?q=80&w=400&h=225&auto=format&fit=crop`, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Trilha Sucesso do Cliente', description: 'Domine as etapas de implementação e acompanhamento de novos clientes.', duration: '10h 30min', price: '' },
     ]
   },
+  { id: 'rh1', title: 'Treinamentos de RH em Alta', variant: 'avancado-1', items: [
+      { id: 'rh1-0', type: 'COURSE', thumb: `https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=400&h=225&auto=format&fit=crop`, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Processos de Recrutamento e Seleção', description: 'Aprenda a identificar e atrair os melhores talentos para sua organização.', duration: '3h 45min', price: '' },
+      { id: 'rh1-1', type: 'COURSE', thumb: `https://images.unsplash.com/photo-1551836022-d5d88e9218df?q=80&w=400&h=225&auto=format&fit=crop`, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Gestão de Benefícios e Folha', description: 'Entenda os pilares da remuneração estratégica e administração de pessoal.', duration: '4h 20min', price: '' },
+      { id: 'rh1-2', type: 'COURSE', thumb: `https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=400&h=225&auto=format&fit=crop`, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Treinamento e Desenvolvimento (T&D)', description: 'Como criar trilhas de aprendizagem que impulsionam o crescimento interno.', duration: '3h 30min', price: '' },
+      { id: 'rh1-3', type: 'COURSE', thumb: `https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=400&h=225&auto=format&fit=crop`, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Avaliação de Desempenho e KPI', description: 'Mensurando resultados e fornecendo feedbacks assertivos para evolução.', duration: '2h 50min', price: '' },
+      { id: 'rh1-4', type: 'COURSE', thumb: `https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=400&h=225&auto=format&fit=crop`, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Cultura e Clima Organizacional', description: 'Estratégias para manter o engajamento e a saúde emocional dos times.', duration: '3h 10min', price: '' },
+    ]
+  },
+  { id: 'rht1', title: 'Trilhas de RH em Destaque', variant: 'avancado-1', items: [
+      { id: 'rht1-0', type: 'TRAIL', thumb: `https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=400&h=225&auto=format&fit=crop`, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Trilha Analista de RH Junior', description: 'O caminho completo para iniciar sua carreira na área de Recursos Humanos.', duration: '15h 00min', price: '' },
+      { id: 'rht1-1', type: 'TRAIL', thumb: `https://images.unsplash.com/photo-1454165833767-027ffea9e77b?q=80&w=400&h=225&auto=format&fit=crop`, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Trilha BP (Business Partner)', description: 'Desenvolva uma visão estratégica para atuar como parceiro de negócios.', duration: '20h 30min', price: '' },
+    ]
+  },
   { id: 'a2', title: 'Avançado 2', variant: 'avancado-2', items: generateItems(11, 'a2') },
   { id: 'a3', title: 'Avançado 3', variant: 'avancado-3', items: generateItems(11, 'a3') },
   { id: 'a4', title: 'Avançado 4', variant: 'avancado-4', items: generateItems(11, 'a4') },
