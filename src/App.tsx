@@ -586,6 +586,10 @@ const getVitrineIdsByFilter = (category: string, sub: string | null) => {
   return subItem?.vitriIds ?? data.vitrines;
 };
 
+// ============================================================
+// VITRINE BAR - REFORMULADA (LEIS DE UX & DIVULGAÇÃO PROGRESSIVA)
+// ============================================================
+
 const VitrineBar = ({
   activeVitrineId,
   setActiveVitrineId,
@@ -595,8 +599,6 @@ const VitrineBar = ({
 }) => {
   const [activeCategory, setActiveCategory] = useState('all');
   const [activeSub, setActiveSub] = useState<string | null>(null);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const { category, sub } = getCategoryForVitrine(activeVitrineId);
@@ -604,128 +606,121 @@ const VitrineBar = ({
     setActiveSub(sub);
   }, [activeVitrineId]);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsDropdownOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
   const categories = Object.entries(CATEGORY_DATA);
   const categoryData = (CATEGORY_DATA[activeCategory as keyof typeof CATEGORY_DATA] ?? CATEGORY_DATA.all) as any;
+  
+  // Disponibiliza as vitrines filtradas pelo nível anterior
   const availableVitrineIds = getVitrineIdsByFilter(activeCategory, activeSub);
   const availableVitrines = VITRINES.filter((v) => availableVitrineIds.includes(v.id));
-  const activeVitrine = VITRINES.find(v => v.id === activeVitrineId);
 
   return (
     <div className="bg-white border-b border-gray-100 sticky top-14 z-40">
-      <div className="max-w-[1600px] 2xl:max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-16 py-4">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="max-w-[1600px] 2xl:max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-16 py-6">
+        <div className="flex flex-col gap-6">
           
-          {/* Navegação de Categorias Principal */}
-          <nav className="flex items-center gap-1 bg-gray-100/50 p-1 rounded-2xl w-fit">
-            {categories.map(([categoryId, category]) => {
-              const isActive = categoryId === activeCategory;
-              return (
-                <button
-                  key={categoryId}
-                  onClick={() => {
-                    setActiveCategory(categoryId);
-                    setActiveSub(null);
-                    // Se a categoria tiver vitrines, seleciona a primeira
-                    const vIds = getVitrineIdsByFilter(categoryId, null);
-                    if (vIds.length > 0) setActiveVitrineId(vIds[0]);
-                  }}
-                  className={`px-5 py-2 rounded-xl text-sm font-bold transition-all duration-200 whitespace-nowrap ${
-                    isActive
-                      ? 'bg-white text-brand-primary shadow-sm'
-                      : 'text-slate-500 hover:text-slate-800'
-                  }`}
-                >
-                  {(category as any).label}
-                </button>
-              );
-            })}
-          </nav>
-
-          {/* Seletor de Vitrine Estilo Dropdown Premium */}
-          <div className="relative" ref={dropdownRef}>
-            <button
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="flex items-center gap-3 bg-white border border-gray-200 hover:border-brand-primary/30 px-5 py-2.5 rounded-2xl shadow-sm transition-all group min-w-[240px] justify-between"
-            >
-              <div className="flex items-center gap-3">
-                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: activeVitrine?.cor || '#FF7A1A' }} />
-                <div className="text-left">
-                  <p className="text-[10px] uppercase tracking-wider font-bold text-slate-400 leading-none mb-1">Vitrine Ativa</p>
-                  <p className="text-sm font-bold text-slate-900 leading-none">{activeVitrine?.nome}</p>
-                </div>
-              </div>
-              <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''}`} />
-            </button>
-
-            <AnimatePresence>
-              {isDropdownOpen && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                  className="absolute right-0 mt-2 w-72 bg-white border border-gray-100 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] overflow-hidden p-2 origin-top-right"
-                >
-                  <div className="max-h-[400px] overflow-y-auto custom-scrollbar">
-                    {/* Subcategorias se existirem */}
-                    {categoryData.subs?.length > 0 && (
-                      <div className="p-2 mb-2 bg-slate-50 rounded-2xl flex flex-wrap gap-1">
-                        <button
-                          onClick={() => setActiveSub(null)}
-                          className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${!activeSub ? 'bg-white text-brand-primary shadow-sm' : 'text-slate-500 hover:bg-white/50'}`}
-                        >
-                          Tudo
-                        </button>
-                        {categoryData.subs.map((sub: any) => (
-                          <button
-                            key={sub.id}
-                            onClick={() => setActiveSub(sub.id)}
-                            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${activeSub === sub.id ? 'bg-white text-brand-primary shadow-sm' : 'text-slate-500 hover:bg-white/50'}`}
-                          >
-                            {sub.label}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-
-                    <div className="space-y-1">
-                      {availableVitrines.map((vitrine) => {
-                        const isActive = vitrine.id === activeVitrineId;
-                        return (
-                          <button
-                            key={vitrine.id}
-                            onClick={() => {
-                              setActiveVitrineId(vitrine.id);
-                              setIsDropdownOpen(false);
-                            }}
-                            className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition-all ${
-                              isActive ? 'bg-brand-primary/5 text-brand-primary' : 'hover:bg-slate-50 text-slate-600'
-                            }`}
-                          >
-                            <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: vitrine.cor }} />
-                            <div className="text-left">
-                              <p className="text-sm font-bold leading-tight">{vitrine.nome}</p>
-                              <p className="text-[11px] opacity-60 leading-tight mt-0.5 line-clamp-1">{vitrine.descricao}</p>
-                            </div>
-                            {isActive && <Check className="w-4 h-4 ml-auto" />}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+          {/* NÍVEL 1: CATEGORIAS (Lei de Miller: Máximo 7 itens) */}
+          <div className="flex flex-col gap-3">
+            <span className="text-[10px] uppercase tracking-[0.15em] font-bold text-slate-400 px-1">Categorias</span>
+            <div className="flex flex-wrap gap-2">
+              {categories.map(([categoryId, category]) => {
+                const isActive = categoryId === activeCategory;
+                return (
+                  <button
+                    key={categoryId}
+                    onClick={() => {
+                      setActiveCategory(categoryId);
+                      setActiveSub(null);
+                      const vIds = getVitrineIdsByFilter(categoryId, null);
+                      if (vIds.length > 0) setActiveVitrineId(vIds[0]);
+                    }}
+                    className={`h-10 px-6 rounded-full text-sm font-bold transition-all duration-200 whitespace-nowrap border ${
+                      isActive
+                        ? 'bg-brand-primary border-brand-primary text-white shadow-md shadow-brand-primary/20 scale-[1.02]'
+                        : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300 hover:bg-slate-50'
+                    }`}
+                  >
+                    {(category as any).label}
+                  </button>
+                );
+              })}
+            </div>
           </div>
+
+          {/* NÍVEL 2: SUBCATEGORIAS (Progressive Disclosure: Só aparece se houver subs) */}
+          <AnimatePresence mode="wait">
+            {activeCategory !== 'all' && categoryData.subs?.length > 0 && (
+              <motion.div 
+                initial={{ opacity: 0, height: 0, y: -10 }}
+                animate={{ opacity: 1, height: 'auto', y: 0 }}
+                exit={{ opacity: 0, height: 0, y: -10 }}
+                className="flex flex-col gap-3 overflow-hidden border-l-2 border-brand-primary/20 pl-4 ml-1"
+              >
+                <span className="text-[10px] uppercase tracking-[0.15em] font-bold text-slate-400">Subcategorias</span>
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    onClick={() => setActiveSub(null)}
+                    className={`h-9 px-5 rounded-full text-xs font-bold transition-all border ${
+                      !activeSub
+                        ? 'bg-slate-900 border-slate-900 text-white shadow-sm'
+                        : 'bg-slate-50 border-slate-100 text-slate-500 hover:bg-slate-100'
+                    }`}
+                  >
+                    Ver Tudo
+                  </button>
+                  {categoryData.subs.map((sub: any) => (
+                    <button
+                      key={sub.id}
+                      onClick={() => setActiveSub(sub.id)}
+                      className={`h-9 px-5 rounded-full text-xs font-bold transition-all border ${
+                        activeSub === sub.id
+                          ? 'bg-slate-900 border-slate-900 text-white shadow-sm'
+                          : 'bg-slate-50 border-slate-100 text-slate-500 hover:bg-slate-100'
+                      }`}
+                    >
+                      {sub.label}
+                    </button>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* NÍVEL 3: VITRINES (Lei da Proximidade: Agrupadas logo abaixo do filtro) */}
+          <div className="flex flex-col gap-3 mt-1">
+            <span className="text-[10px] uppercase tracking-[0.15em] font-bold text-slate-400 px-1">Vitrines Disponíveis</span>
+            <div className="flex flex-wrap gap-2">
+              {availableVitrines.map((vitrine) => {
+                const isActive = vitrine.id === activeVitrineId;
+                return (
+                  <button
+                    key={vitrine.id}
+                    onClick={() => setActiveVitrineId(vitrine.id)}
+                    className={`group relative flex items-center gap-3 h-11 px-4 rounded-2xl border transition-all duration-200 ${
+                      isActive
+                        ? 'bg-white border-brand-primary ring-4 ring-brand-primary/5 shadow-sm'
+                        : 'bg-white border-slate-100 hover:border-slate-300'
+                    }`}
+                  >
+                    <div 
+                      className={`w-2 h-2 rounded-full transition-transform duration-300 ${isActive ? 'scale-125' : 'group-hover:scale-110'}`} 
+                      style={{ backgroundColor: vitrine.cor }} 
+                    />
+                    <div className="text-left">
+                      <p className={`text-xs font-bold leading-none ${isActive ? 'text-brand-primary' : 'text-slate-700'}`}>
+                        {vitrine.nome}
+                      </p>
+                    </div>
+                    {isActive && (
+                      <motion.div layoutId="activeCheck" className="ml-1">
+                        <Check className="w-3.5 h-3.5 text-brand-primary" />
+                      </motion.div>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
