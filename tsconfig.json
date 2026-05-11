@@ -23,5 +23,5 @@
     "allowImportingTsExtensions": true,
     "noEmit": true
   },
-  "exclude": ["tela treinamento e trilha", "node_modules", "dist"]
+  "exclude": ["tela treinamento e trilha", "node_modules", "dist", "hello-reader-56616d9e"]
 }
