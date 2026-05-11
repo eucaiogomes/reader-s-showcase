@@ -455,10 +455,10 @@ const SECTIONS: Section[] = [
     ]
   },
   { id: 'lt1', title: 'Trilhas de Liderança em Destaque', variant: 'avancado-1', items: [
-      { id: 'lt1-0', type: 'TRAIL', thumb: trail01, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Trilha Primeira Liderança', description: 'O guia definitivo para quem está assumindo seu primeiro cargo de gestão.', duration: '12h 00min', price: '' },
-      { id: 'lt1-1', type: 'TRAIL', thumb: trail02, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Trilha Liderança Estratégica', description: 'Desenvolva pensamento crítico e visão de longo prazo para alta gestão.', duration: '15h 30min', price: '' },
-      { id: 'lt1-2', type: 'TRAIL', thumb: trail03, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Trilha Feedback e Performance', description: 'Domine ciclos de avaliação e conversas difíceis para elevar o patamar do time.', duration: '10h 00min', price: '' },
-      { id: 'lt1-3', type: 'TRAIL', thumb: trail04, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Trilha Cultura e Engajamento', description: 'Aprenda a construir um ambiente de alto pertencimento e produtividade.', duration: '8h 45min', price: '' },
+      { id: 'lt1-0', type: 'TRAIL', thumb: `https://picsum.photos/seed/trilha-lider-0/400/225`, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Trilha Primeira Liderança', description: 'O guia definitivo para quem está assumindo seu primeiro cargo de gestão.', duration: '12h 00min', price: '' },
+      { id: 'lt1-1', type: 'TRAIL', thumb: `https://picsum.photos/seed/trilha-lider-1/400/225`, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Trilha Liderança Estratégica', description: 'Desenvolva pensamento crítico e visão de longo prazo para alta gestão.', duration: '15h 30min', price: '' },
+      { id: 'lt1-2', type: 'TRAIL', thumb: `https://picsum.photos/seed/trilha-lider-2/400/225`, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Trilha Feedback e Performance', description: 'Domine ciclos de avaliação e conversas difíceis para elevar o patamar do time.', duration: '10h 00min', price: '' },
+      { id: 'lt1-3', type: 'TRAIL', thumb: `https://picsum.photos/seed/trilha-lider-3/400/225`, authors: 'Equipe Lector', progress: 0, grade: 0, title: 'Trilha Cultura e Engajamento', description: 'Aprenda a construir um ambiente de alto pertencimento e produtividade.', duration: '8h 45min', price: '' },
     ]
   },
   { id: 'a2', title: 'Avançado 2', variant: 'avancado-2', items: generateItems(11, 'a2') },
