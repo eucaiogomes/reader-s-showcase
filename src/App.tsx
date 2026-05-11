@@ -587,7 +587,7 @@ const getVitrineIdsByFilter = (category: string, sub: string | null) => {
 };
 
 // ============================================================
-// VITRINE BAR - REFORMULADA (LEIS DE UX & DIVULGAÇÃO PROGRESSIVA)
+// VITRINE BAR - ESTILO APP STORE (TABS SUPERIORES)
 // ============================================================
 
 const VitrineBar = ({
@@ -608,120 +608,108 @@ const VitrineBar = ({
 
   const categories = Object.entries(CATEGORY_DATA);
   const categoryData = (CATEGORY_DATA[activeCategory as keyof typeof CATEGORY_DATA] ?? CATEGORY_DATA.all) as any;
-  
-  // Disponibiliza as vitrines filtradas pelo nível anterior
   const availableVitrineIds = getVitrineIdsByFilter(activeCategory, activeSub);
   const availableVitrines = VITRINES.filter((v) => availableVitrineIds.includes(v.id));
 
   return (
-    <div className="bg-white border-b border-gray-100 sticky top-14 z-40">
-      <div className="max-w-[1600px] 2xl:max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-16 py-6">
-        <div className="flex flex-col gap-6">
-          
-          {/* NÍVEL 1: CATEGORIAS (Lei de Miller: Máximo 7 itens) */}
-          <div className="flex flex-col gap-3">
-            <span className="text-[10px] uppercase tracking-[0.15em] font-bold text-slate-400 px-1">Categorias</span>
-            <div className="flex flex-wrap gap-2">
-              {categories.map(([categoryId, category]) => {
-                const isActive = categoryId === activeCategory;
-                return (
-                  <button
-                    key={categoryId}
-                    onClick={() => {
-                      setActiveCategory(categoryId);
-                      setActiveSub(null);
-                      const vIds = getVitrineIdsByFilter(categoryId, null);
-                      if (vIds.length > 0) setActiveVitrineId(vIds[0]);
-                    }}
-                    className={`h-10 px-6 rounded-full text-sm font-bold transition-all duration-200 whitespace-nowrap border ${
-                      isActive
-                        ? 'bg-brand-primary border-brand-primary text-white shadow-md shadow-brand-primary/20 scale-[1.02]'
-                        : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300 hover:bg-slate-50'
-                    }`}
-                  >
-                    {(category as any).label}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
+    <div className="bg-white/80 backdrop-blur-xl border-b border-gray-100 sticky top-14 z-40">
+      <div className="max-w-[1600px] 2xl:max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-16">
+        
+        {/* NÍVEL 1: NAVEGAÇÃO PRINCIPAL (ESTILO APP STORE) */}
+        <div className="flex items-center justify-between border-b border-gray-50 h-16">
+          <nav className="flex items-center h-full gap-8 overflow-x-auto scrollbar-hide">
+            {categories.map(([categoryId, category]) => {
+              const isActive = categoryId === activeCategory;
+              return (
+                <button
+                  key={categoryId}
+                  onClick={() => {
+                    setActiveCategory(categoryId);
+                    setActiveSub(null);
+                    const vIds = getVitrineIdsByFilter(categoryId, null);
+                    if (vIds.length > 0) setActiveVitrineId(vIds[0]);
+                  }}
+                  className={`relative h-full flex items-center text-[15px] font-bold transition-all whitespace-nowrap px-1 ${
+                    isActive ? 'text-brand-primary' : 'text-slate-400 hover:text-slate-600'
+                  }`}
+                >
+                  {(category as any).label}
+                  {isActive && (
+                    <motion.div 
+                      layoutId="activeTabUnderline" 
+                      className="absolute bottom-0 left-0 right-0 h-1 bg-brand-primary rounded-t-full" 
+                    />
+                  )}
+                </button>
+              );
+            })}
+          </nav>
+        </div>
 
-          {/* NÍVEL 2: SUBCATEGORIAS (Progressive Disclosure: Só aparece se houver subs) */}
+        {/* NÍVEL 2 E 3: EXPLORAÇÃO E FILTROS (REVELAÇÃO PROGRESSIVA) */}
+        <div className="py-5 flex flex-col gap-5">
+          
           <AnimatePresence mode="wait">
             {activeCategory !== 'all' && categoryData.subs?.length > 0 && (
               <motion.div 
-                initial={{ opacity: 0, height: 0, y: -10 }}
-                animate={{ opacity: 1, height: 'auto', y: 0 }}
-                exit={{ opacity: 0, height: 0, y: -10 }}
-                className="flex flex-col gap-3 overflow-hidden border-l-2 border-brand-primary/20 pl-4 ml-1"
+                initial={{ opacity: 0, y: -5 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -5 }}
+                className="flex items-center gap-2 overflow-x-auto scrollbar-hide pb-1"
               >
-                <span className="text-[10px] uppercase tracking-[0.15em] font-bold text-slate-400">Subcategorias</span>
-                <div className="flex flex-wrap gap-2">
+                <button
+                  onClick={() => setActiveSub(null)}
+                  className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all border whitespace-nowrap ${
+                    !activeSub
+                      ? 'bg-slate-900 border-slate-900 text-white'
+                      : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300'
+                  }`}
+                >
+                  Tudo
+                </button>
+                {categoryData.subs.map((sub: any) => (
                   <button
-                    onClick={() => setActiveSub(null)}
-                    className={`h-9 px-5 rounded-full text-xs font-bold transition-all border ${
-                      !activeSub
-                        ? 'bg-slate-900 border-slate-900 text-white shadow-sm'
-                        : 'bg-slate-50 border-slate-100 text-slate-500 hover:bg-slate-100'
+                    key={sub.id}
+                    onClick={() => setActiveSub(sub.id)}
+                    className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all border whitespace-nowrap ${
+                      activeSub === sub.id
+                        ? 'bg-slate-900 border-slate-900 text-white'
+                        : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300'
                     }`}
                   >
-                    Ver Tudo
+                    {sub.label}
                   </button>
-                  {categoryData.subs.map((sub: any) => (
-                    <button
-                      key={sub.id}
-                      onClick={() => setActiveSub(sub.id)}
-                      className={`h-9 px-5 rounded-full text-xs font-bold transition-all border ${
-                        activeSub === sub.id
-                          ? 'bg-slate-900 border-slate-900 text-white shadow-sm'
-                          : 'bg-slate-50 border-slate-100 text-slate-500 hover:bg-slate-100'
-                      }`}
-                    >
-                      {sub.label}
-                    </button>
-                  ))}
-                </div>
+                ))}
               </motion.div>
             )}
           </AnimatePresence>
 
-          {/* NÍVEL 3: VITRINES (Lei da Proximidade: Agrupadas logo abaixo do filtro) */}
-          <div className="flex flex-col gap-3 mt-1">
-            <span className="text-[10px] uppercase tracking-[0.15em] font-bold text-slate-400 px-1">Vitrines Disponíveis</span>
-            <div className="flex flex-wrap gap-2">
-              {availableVitrines.map((vitrine) => {
-                const isActive = vitrine.id === activeVitrineId;
-                return (
-                  <button
-                    key={vitrine.id}
-                    onClick={() => setActiveVitrineId(vitrine.id)}
-                    className={`group relative flex items-center gap-3 h-11 px-4 rounded-2xl border transition-all duration-200 ${
-                      isActive
-                        ? 'bg-white border-brand-primary ring-4 ring-brand-primary/5 shadow-sm'
-                        : 'bg-white border-slate-100 hover:border-slate-300'
-                    }`}
-                  >
-                    <div 
-                      className={`w-2 h-2 rounded-full transition-transform duration-300 ${isActive ? 'scale-125' : 'group-hover:scale-110'}`} 
-                      style={{ backgroundColor: vitrine.cor }} 
-                    />
-                    <div className="text-left">
-                      <p className={`text-xs font-bold leading-none ${isActive ? 'text-brand-primary' : 'text-slate-700'}`}>
-                        {vitrine.nome}
-                      </p>
-                    </div>
-                    {isActive && (
-                      <motion.div layoutId="activeCheck" className="ml-1">
-                        <Check className="w-3.5 h-3.5 text-brand-primary" />
-                      </motion.div>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
+          <div className="flex flex-wrap gap-2">
+            {availableVitrines.map((vitrine) => {
+              const isActive = vitrine.id === activeVitrineId;
+              return (
+                <button
+                  key={vitrine.id}
+                  onClick={() => setActiveVitrineId(vitrine.id)}
+                  className={`group flex items-center gap-2.5 px-4 py-2 rounded-xl border transition-all duration-200 ${
+                    isActive
+                      ? 'bg-slate-50 border-brand-primary ring-2 ring-brand-primary/5'
+                      : 'bg-white border-slate-100 hover:border-slate-200 hover:shadow-sm'
+                  }`}
+                >
+                  <div 
+                    className="w-1.5 h-1.5 rounded-full" 
+                    style={{ backgroundColor: vitrine.cor }} 
+                  />
+                  <span className={`text-[13px] font-bold ${isActive ? 'text-brand-primary' : 'text-slate-600'}`}>
+                    {vitrine.nome}
+                  </span>
+                </button>
+              );
+            })}
           </div>
-
         </div>
+
       </div>
     </div>
   );
